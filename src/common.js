@@ -748,7 +748,7 @@
         const links = data.links;
         const tl = links.length;
         for (let j = 0; j < tl; j++) {
-          nl += MT.addLink(Object.assign(links[j], { origin: origin }), check);
+          nl += MT.addLink(Object.assign(links[j], { origin: origin, hasDistance: true, distanceOrigin: origin }), check);
         }
         console.log("CSV Matrix Merge time: ", (Date.now() - start).toLocaleString(), "ms");
         resolve({ nn, nl, tn, tl });
@@ -1505,21 +1505,23 @@
       } else {
 
         if(link.hasDistance) {
+
           visible = link[metric] <= threshold;
+
           if(link[metric] == 0){
 
             if(link.origin.filter(fileName => !fileName.includes(link.distanceOrigin)).length > 0){
               // Set visible and origin to only show the from the file outside of Distance
-              // console.log('no vis');
               link.origin = link.origin.filter(fileName => !fileName.includes(link.distanceOrigin));
               visible = true;
               overrideNN = true;
-              // console.log('link origin is: ', link.origin, link.distanceOrigin);
             } 
           }
 
           if(!visible) {
-            if(link.origin.filter(fileName => !fileName.includes(link.distanceOrigin)).length > 0){
+
+            // Only need to get distance origin and override if there are other files using a distance metric, otherwise the else code block below would be exectued since the link would not have distance
+            if(link.origin.length > 1 && link.origin.filter(fileName => !fileName.includes(link.distanceOrigin)).length > 0){
               // Set visible and origin to only show the from the file outside of Distance
               link.origin = link.origin.filter(fileName => !fileName.includes(link.distanceOrigin));
               overrideNN = true;
