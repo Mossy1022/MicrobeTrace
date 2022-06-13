@@ -58,6 +58,7 @@ export class TwoDComponent extends AppComponentBase implements OnInit, MicobeTra
     SelectedPolygonGatherValue: number = 0.0;
     CenterPolygonVariable: string = "None";
     SelectedPolygonLabelShowVariable: string = "Hide";
+    SelectedPolygonColorVariable: string = "None";
     SelectedPolygonColorShowVariable: string = "Hide";
     SelectedPolygonColorTableShowVariable: string = "Hide";
 
